@@ -119,22 +119,4 @@ public class FileBasedSensorDataSourceTest {
 		
 		MatcherAssert.assertThat(dataRecords, Matchers.hasSize(6));
 	}
-	
-	@Test
-	public void whenNotIncreasingSensorReadingTimeThenExceptionThrown() {
-		
-		int countValidRecords = 0;
-		fileSensorDataReader = new FileSensorDataReader<>(invalidRecordHandler, Paths.get("src/test/resources/", "not_increasing_reading_time.txt"));
-		Iterator<SensorDataRecord> iterator = fileSensorDataReader.stream().iterator();
-		while ( iterator.hasNext() ) {
-			
-			SensorDataRecord parsedRecord = iterator.next();
-			if ( parsedRecord != null ) {
-				
-				countValidRecords ++;
-			}
-		}
-		MatcherAssert.assertThat(countValidRecords, Matchers.is( 3 ));
-		Mockito.verify( this.invalidRecordHandler, Mockito.times(2) ).handleInvalidRecord( org.mockito.Matchers.any(String.class) );
-	}
 }
